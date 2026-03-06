@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #6366f1, #8b5cf6); border-radius: 5px; }
+
+        /* ===== TOP BAR ===== */
+        #top { position: relative; }
+        .top-bar {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #a78bfa);
+            padding: 6px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .navbar .logo i {
+            font-size: 28px;
+            color: #818cf8;
+        }
+        .navbar .logo span {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+            align-items: center;
+        }
+        .nav-links > li { position: relative; }
+        .nav-links > li > a {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-links > li > a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+        }
+        .nav-links > li > a.active {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+        }
+
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #1e293b;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            min-width: 220px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            z-index: 999;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .dropdown-content a:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+        }
+        .dropdown-content a i { width: 18px; text-align: center; color: #6366f1; }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%);
+            top: -100px; right: -100px;
+            border-radius: 50%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.1), transparent 70%);
+            bottom: -50px; left: -50px;
+            border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 850px; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: #a5b4fc;
+            margin-bottom: 30px;
+        }
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #e2e8f0, #a5b4fc, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 auto 40px;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+        .btn-secondary {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+        }
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+        }
+        .btn-danger:hover { transform: translateY(-2px); }
+
+        /* ===== SECTION STYLES ===== */
+        .section {
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-dark {
+            background: #0b1120;
+            max-width: 100%;
+            padding: 80px 40px;
+        }
+        .section-dark .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-gradient {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            max-width: 100%;
+            padding: 80px 40px;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #e2e8f0, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title p {
+            color: #64748b;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .section-title .line {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 2px;
+            margin: 16px auto 0;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+        .card p { color: #94a3b8; font-size: 15px; }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+        /* ===== PROCESS TIMELINE ===== */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #6366f1, #8b5cf6, #a78bfa);
+            border-radius: 3px;
+        }
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: calc(50% + 40px);
+            position: relative;
+            margin-bottom: 50px;
+        }
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: calc(50% + 40px);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #6366f1;
+            border: 4px solid #0f172a;
+            border-radius: 50%;
+            z-index: 2;
+        }
+        .timeline-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 450px;
+            transition: all 0.3s;
+        }
+        .timeline-card:hover {
+            border-color: rgba(99,102,241,0.4);
+            transform: scale(1.02);
+        }
+        .timeline-card .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .timeline-card h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+        .timeline-card p { color: #94a3b8; font-size: 14px; }
+
+        /* ===== TABLES ===== */
+        .styled-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .styled-table thead tr {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        .styled-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .styled-table td {
+            padding: 14px 20px;
+            font-size: 14px;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(99,102,241,0.1);
+        }
+        .styled-table tbody tr {
+            background: rgba(30, 41, 59, 0.5);
+            transition: all 0.2s;
+        }
+        .styled-table tbody tr:hover {
+            background: rgba(99, 102, 241, 0.08);
+        }
+        .styled-table tbody tr:last-child td { border-bottom: none; }
+        .table-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-blue { background: rgba(99,102,241,0.15); color: #818cf8; }
+        .badge-green { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-purple { background: rgba(139,92,246,0.15); color: #a78bfa; }
+        .badge-orange { background: rgba(249,115,22,0.15); color: #fb923c; }
+
+        /* ===== IMAGES ===== */
+        .img-bordered {
+            border: 3px solid #6366f1;
+            border-radius: 16px;
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(99,102,241,0.2);
+        }
+        .img-bordered:hover {
+            border-color: #a78bfa;
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(99,102,241,0.3);
+        }
+        .img-rounded {
+            border-radius: 50%;
+            border: 3px solid #8b5cf6;
+        }
+
+        /* ===== LISTS ===== */
+        .styled-list {
+            list-style: none;
+            padding: 0;
+        }
+        .styled-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #cbd5e1;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(99,102,241,0.08);
+        }
+        .styled-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-size: 13px;
+        }
+        .styled-list-x li::before {
+            content: '\f00d';
+            color: #ef4444;
+        }
+        .ordered-styled {
+            padding-left: 20px;
+        }
+        .ordered-styled li {
+            padding: 10px 0 10px 10px;
+            color: #cbd5e1;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(99,102,241,0.08);
+        }
+        .ordered-styled li::marker {
+            color: #818cf8;
+            font-weight: 700;
+        }
+
+        /* ===== IFRAME WRAPPER ===== */
+        .iframe-wrapper {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(99,102,241,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .iframe-wrapper iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        /* ===== ADVANTAGES / LIMITATIONS ===== */
+        .adv-card {
+            background: rgba(16,185,129,0.05);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        .adv-card:hover {
+            border-color: rgba(16,185,129,0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(16,185,129,0.1);
+        }
+        .adv-card .icon-wrap {
+            width: 48px; height: 48px;
+            background: rgba(16,185,129,0.15);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 16px;
+            color: #10b981;
+            font-size: 20px;
+        }
+        .adv-card h4 { font-size: 17px; font-weight: 700; color: #e2e8f0; margin-bottom: 8px; }
+        .adv-card p { font-size: 14px; color: #94a3b8; }
+
+        .lim-card {
+            background: rgba(239,68,68,0.05);
+            border: 1px solid rgba(239,68,68,0.15);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        .lim-card:hover {
+            border-color: rgba(239,68,68,0.4);
+            transform: translateY(-3px);
+        }
+        .lim-card .icon-wrap {
+            width: 48px; height: 48px;
+            background: rgba(239,68,68,0.12);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 16px;
+            color: #ef4444;
+            font-size: 20px;
+        }
+        .lim-card h4 { font-size: 17px; font-weight: 700; color: #e2e8f0; margin-bottom: 8px; }
+        .lim-card p { font-size: 14px; color: #94a3b8; }
+
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+        }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #070d1a;
+            border-top: 1px solid rgba(99,102,241,0.15);
+            padding: 60px 40px 30px;
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+        .footer p { font-size: 14px; color: #64748b; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: #818cf8; }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(99,102,241,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-bottom p { font-size: 13px; color: #475569; }
+        .social-icons { display: flex; gap: 12px; }
+        .social-icons a {
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            background: rgba(99,102,241,0.1);
+            display: flex; align-items: center; justify-content: center;
+            color: #818cf8;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .social-icons a:hover {
+            background: #6366f1;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ===== MOVE TO TOP / BOTTOM ===== */
+        .floating-btn {
+            position: fixed;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            z-index: 900;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .floating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        #moveToTop {
+            bottom: 80px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+        #moveToBottom {
+            bottom: 24px;
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: -40px;
+            position: relative;
+            z-index: 5;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 40px;
+        }
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .stat-card .stat-num {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== INFO BOXES ===== */
+        .info-box {
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+        .info-box-blue {
+            background: rgba(99,102,241,0.08);
+            border-left: 4px solid #6366f1;
+        }
+        .info-box-green {
+            background: rgba(16,185,129,0.08);
+            border-left: 4px solid #10b981;
+        }
+        .info-box i { font-size: 20px; margin-top: 2px; }
+        .info-box p { font-size: 14px; color: #94a3b8; }
+
+        /* ===== TABS ===== */
+        .tab-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 10px 24px;
+            background: rgba(30,41,59,0.5);
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 10px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .tab-btn:hover {
+            border-color: rgba(99,102,241,0.3);
+            color: #a5b4fc;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        /* ===== ABOUT TEAM ===== */
+        .team-card {
+            text-align: center;
+            background: rgba(30,41,59,0.5);
+            border: 1px solid rgba(99,102,241,0.1);
+            border-radius: 16px;
+            padding: 32px 24px;
+            transition: all 0.3s;
+        }
+        .team-card:hover {
+            border-color: rgba(99,102,241,0.3);
+            transform: translateY(-4px);
+        }
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #6366f1;
+            margin: 0 auto 16px;
+            object-fit: cover;
+        }
+        .team-card h4 { font-size: 17px; font-weight: 700; color: #e2e8f0; }
+        .team-card .role { font-size: 13px; color: #818cf8; margin-top: 4px; }
+
+        /* ===== LINKS COLORED ===== */
+        a.link-indigo { color: #818cf8; text-decoration: underline; }
+        a.link-indigo:hover { color: #a5b4fc; }
+        a.link-green { color: #34d399; text-decoration: underline; }
+        a.link-green:hover { color: #6ee7b7; }
+        a.link-purple { color: #a78bfa; text-decoration: underline; }
+        a.link-purple:hover { color: #c4b5fd; }
+        a.link-orange { color: #fb923c; text-decoration: underline; }
+        a.link-orange:hover { color: #fdba74; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .timeline::before { left: 20px; }
+            .timeline-item, .timeline-item:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+            .timeline-item::before { left: 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .section { padding: 50px 20px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: 1fr; padding: 0 20px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: #e2e8f0;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #1e293b;
+                padding: 20px;
+                border-bottom: 1px solid rgba(99,102,241,0.2);
+            }
+        }
+
+        /* ===== PAGE SECTIONS HIDDEN BY DEFAULT ===== */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        /* ===== COLORED FONT EXAMPLES ===== */
+        .text-indigo { color: #818cf8; }
+        .text-green { color: #34d399; }
+        .text-purple { color: #a78bfa; }
+        .text-orange { color: #fb923c; }
+        .text-red { color: #f87171; }
+        .text-cyan { color: #22d3ee; }
+
+        .font-large { font-size: 20px; }
+        .font-small { font-size: 12px; }
+        .font-serif { font-family: Georgia, 'Times New Roman', serif; }
+        .font-mono { font-family: 'Courier New', monospace; }
+
+        /* Separator */
+        .separator {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), transparent);
+            margin: 40px 0;
+        }
+
+        /* Tooltip */
+        .tooltip-wrap {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip-wrap .tooltip-text {
+            visibility: hidden;
+            background: #312e81;
+            color: #e2e8f0;
+            font-size: 12px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            z-index: 10;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .tooltip-wrap:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+        /* Accordion */
+        .accordion-item {
+            border: 1px solid rgba(99,102,241,0.15);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 18px 24px;
+            background: rgba(30,41,59,0.5);
+            color: #e2e8f0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .accordion-header:hover { background: rgba(99,102,241,0.08); }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 24px;
+            background: rgba(15,23,42,0.5);
+        }
+        .accordion-body.open {
+            max-height: 300px;
+            padding: 20px 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOP OF PAGE ===== -->
+    <div id="top"></div>
+
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <i class="fas fa-chart-line"></i> &nbsp; Welcome to <b>Data Analytics Hub</b> — Your Complete Resource for Data Analytics Knowledge
+    </div>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <nav class="navbar">
+        <a href="#top" class="logo" onclick="showPage('home')">
+            <i class="fas fa-database"></i>
+            <span>DataAnalytics<b>Hub</b></span>
+        </a>
+        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#top" class="active" onclick="showPage('home')" id="nav-home"><i class="fas fa-home"></i> Home</a></li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-sitemap"></i> Learn <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showPage('process')"><i class="fas fa-cogs"></i> Process</a>
+                    <a href="#" onclick="showPage('types')"><i class="fas fa-layer-group"></i> Types</a>
+                    <a href="#" onclick="showPage('datatypes')"><i class="fas fa-cubes"></i> Data Types</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#"><i class="fas fa-balance-scale"></i> Evaluate <i class="fas fa-chevron-down" style="font-size:10px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showPage('advantages')"><i class="fas fa-thumbs-up"></i> Advantages</a>
+                    <a href="#" onclick="showPage('limitations')"><i class="fas fa-thumbs-down"></i> Limitations</a>
+                </div>
+            </li>
+            <li><a href="#" onclick="showPage('about')" id="nav-about"><i class="fas fa-users"></i> About</a></li>
+            <li><a href="#" onclick="showPage('help')" id="nav-help"><i class="fas fa-question-circle"></i> Help</a></li>
+        </ul>
+    </nav>
+
+    <!-- ======================================== -->
+    <!-- ===== HOME PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section active" id="page-home">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fas fa-sparkles"></i> The Future of Decision Making</div>
+                <h1>Master the Art of <br>Data Analytics</h1>
+                <p>Unlock powerful insights from raw data. Explore the complete lifecycle, types, tools, advantages, and limitations of modern data analytics.</p>
+                <div class="hero-buttons">
+                    <a href="#" onclick="showPage('process')" class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started</a>
+                    <a href="#" onclick="showPage('types')" class="btn btn-secondary"><i class="fas fa-play"></i> Explore Types</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-num">2.5Q</div>
+                <div class="stat-label">Bytes Created Daily</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">95%</div>
+                <div class="stat-label">Businesses Use Analytics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">$274B</div>
+                <div class="stat-label">Market Size by 2026</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">30%</div>
+                <div class="stat-label">Revenue Boost Avg.</div>
+            </div>
+        </div>
+
+        <!-- What is Data Analytics -->
+        <section class="section">
+            <div class="section-title">
+                <h2>What is Data Analytics?</h2>
+                <p>Understanding the foundation of data-driven decision making</p>
+                <div class="line"></div>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <p style="font-size: 16px; color: #94a3b8; margin-bottom: 20px;">
+                        <b style="color: #e2e8f0;">Data Analytics</b> is the science of analyzing raw data to extract <em>meaningful insights</em> and draw conclusions. It involves applying <u>algorithmic</u> or <i>mechanical processes</i> to derive patterns and information.
+                    </p>
+                    <p style="font-size: 16px; color: #94a3b8; margin-bottom: 20px;">
+                        Organizations leverage data analytics to <strong style="color: #818cf8;">optimize performance</strong>, make informed business decisions, and gain a competitive edge in the market. The field combines
+                        <span class="text-green font-large">statistics</span>, <span class="text-purple">computer science</span>, and <span class="text-orange">domain expertise</span>.
+                    </p>
+                    <div class="info-box info-box-blue">
+                        <i class="fas fa-info-circle text-indigo"></i>
+                        <p>Data analytics transforms raw, unstructured data into <b>actionable intelligence</b>, enabling businesses to understand customer behavior, reduce costs, and improve operational efficiency.</p>
+                    </div>
+                    <p style="margin-top: 20px;">
+                        <a href="https://en.wikipedia.org/wiki/Data_analysis" target="_blank" class="link-indigo">Learn more on Wikipedia <i class="fas fa-external-link-alt"></i></a> &nbsp; | &nbsp;
+                        <a href="https://www.ibm.com/analytics" target="_blank" class="link-purple">IBM Analytics <i class="fas fa-external-link-alt"></i></a>
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <a href="https://en.wikipedia.org/wiki/Data_analysis" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
+                             alt="Data Analytics Dashboard" class="img-bordered" style="max-width: 100%; height: auto;">
+                    </a>
+                    <p style="font-size: 13px; color: #64748b; margin-top: 12px;"><i>Click image to learn more about Data Analytics</i></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Areas -->
+        <section class="section-dark">
+            <div class="section-inner">
+                <div class="section-title">
+                    <h2>Key Areas of Data Analytics</h2>
+                    <p>Core disciplines that power modern analytics</p>
+                    <div class="line"></div>
+                </div>
+                <div class="grid-4">
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(99,102,241,0.15); color: #818cf8;">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Business Intelligence</h3>
+                        <p>Transform data into actionable business insights and strategic decisions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Machine Learning</h3>
+                        <p>Automated pattern detection and predictive modeling using algorithms.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(249,115,22,0.15); color: #fb923c;">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3>Data Visualization</h3>
+                        <p>Represent complex data through intuitive charts, graphs and dashboards.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon" style="background: rgba(139,92,246,0.15); color: #a78bfa;">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3>Statistical Analysis</h3>
+                        <p>Apply statistical methods to identify trends, correlations and anomalies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Embedded Video (iframe) -->
+        <section class="section">
+            <div class="section-title">
+                <h2>Learn Data Analytics</h2>
+                <p>Watch this introductory video to understand data analytics fundamentals</p>
+                <div class="line"></div>
+            </div>
+            <div class="iframe-wrapper" style="max-width: 800px; margin: 0 auto;">
+                <iframe src="https://www.youtube.com/embed/yZvFH7B6gKI" 
+                        title="Data Analytics Introduction" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            </div>
+            <p style="text-align:center; margin-top:16px; font-size:13px; color:#64748b;">
+                <i class="fas fa-video text-indigo"></i> Video source: YouTube — <a href="https://www.youtube.com/watch?v=yZvFH7B6gKI" target="_blank" class="link-indigo">Watch on YouTube</a>
+            </p>
+        </section>
+
+        <!-- Popular Tools Table -->
+        <section class="section-dark">
+            <div class="section-inner">
+                <div class="section-title">
+                    <h2>Popular Analytics Tools</h2>
+                    <p>Industry-leading tools used by data professionals worldwide</p>
+                    <div class="line"></div>
+                </div>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Tool</th>
+                            <th>Category</th>
+                            <th>Primary Use</th>
+                            <th>Difficulty</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Python</strong></td>
+                            <td><span class="table-badge badge-blue">Programming</span></td>
+                            <td>Data manipulation, ML & AI</td>
+                            <td>⭐⭐⭐</td>
+                            <td style="color: #34d399;">Free</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R</strong></td>
+                            <td><span class="table-badge badge-green">Statistical</span></td>
+                            <td>Statistical computing & graphics</td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td style="color: #34d399;">Free</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tableau</strong></td>
+                            <td><span class="table-badge badge-purple">Visualization</span></td>
+                            <td>Interactive data visualization</td>
+                            <td>⭐⭐</td>
+                            <td style="color: #fb923c;">$70/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Power BI</strong></td>
+                            <td><span class="table-badge badge-purple">Visualization</span></td>
+                            <td>Business dashboards & reports</td>
+                            <td>⭐⭐</td>
+                            <td style="color: #fb923c;">$10/mo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SQL</strong></td>
+                            <td><span class="table-badge badge-blue">Database</span></td>
+                            <td>Data querying & management</td>
+                            <td>⭐⭐</td>
+                            <td style="color: #34d399;">Free</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apache Spark</strong></td>
+                            <td><span class="table-badge badge-orange">Big Data</span></td>
+                            <td>Large-scale data processing</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td style="color: #34d399;">Free</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Excel</strong></td>
+                            <td><span class="table-badge badge-green">Spreadsheet</span></td>
+                            <td>Basic data analysis & reporting</td>
+                            <td>⭐</td>
+                            <td style="color: #fb923c;">$7/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- External Resources -->
+        <section class="section">
+            <div class="section-title">
+                <h2>External Resources</h2>
+                <p>Trusted sources to deepen your analytics knowledge</p>
+                <div class="line"></div>
+            </div>
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <i class="fab fa-kaggle" style="font-size: 40px; color: #20beff; margin-bottom: 16px;"></i>
+                    <h3>Kaggle</h3>
+                    <p>Datasets, notebooks and competitions</p>
+                    <a href="https://www.kaggle.com" target="_blank" class="btn btn-secondary" style="margin-top: 16px;">
+                        Visit Kaggle <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fab fa-google" style="font-size: 40px; color: #fbbc04; margin-bottom: 16px;"></i>
+                    <h3>Google Analytics</h3>
+                    <p>Web analytics service by Google</p>
+                    <a href="https://analytics.google.com" target="_blank" class="btn btn-secondary" style="margin-top: 16px;">
+                        Explore <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <i class="fas fa-graduation-cap" style="font-size: 40px; color: #a78bfa; margin-bottom: 16px;"></i>
+                    <h3>Coursera</h3>
+                    <p>Online courses from top universities</p>
+                    <a href="https://www.coursera.org/browse/data-science" target="_blank" class="btn btn-secondary" style="margin-top: 16px;">
+                        Learn Now <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== PROCESS PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-process">
+        <section class="section-gradient" style="padding-top: 60px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div class="section-title">
+                    <h2><i class="fas fa-cogs text-indigo"></i> The Data Analytics Process</h2>
+                    <p>A systematic approach to transforming raw data into actionable insights</p>
+                    <div class="line"></div>
+                </div>
+
+                <div class="info-box info-box-blue" style="max-width: 700px; margin: 0 auto 40px;">
+                    <i class="fas fa-lightbulb text-indigo"></i>
+                    <p>The data analytics process follows a <b>structured lifecycle</b> that ensures data quality, accurate analysis, and meaningful results. Each step builds upon the previous one.</p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">1</div>
+                            <h3>Define Objectives</h3>
+                            <p>Clearly articulate the business problem or question. Establish KPIs, define success metrics, and understand stakeholder requirements. <em style="color: #818cf8;">This is the most critical step.</em></p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">2</div>
+                            <h3>Data Collection</h3>
+                            <p>Gather data from multiple sources — databases, APIs, surveys, web scraping, IoT sensors, and third-party providers. Ensure data is <b>comprehensive and relevant</b>.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">3</div>
+                            <h3>Data Cleaning & Preparation</h3>
+                            <p>Remove duplicates, handle missing values, standardize formats, and eliminate outliers. This step typically takes <u>60-80% of the total analysis time</u>.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">4</div>
+                            <h3>Data Exploration (EDA)</h3>
+                            <p>Perform exploratory data analysis using statistical methods and visualizations. Identify patterns, trends, distributions, and correlations in the dataset.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">5</div>
+                            <h3>Data Modeling & Analysis</h3>
+                            <p>Apply appropriate analytical techniques — regression, classification, clustering, or time-series analysis to extract insights from the data.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">6</div>
+                            <h3>Visualization & Reporting</h3>
+                            <p>Create compelling dashboards, charts, and reports. Present findings in an <i>accessible format</i> for stakeholders using tools like Tableau or Power BI.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <div class="step-num">7</div>
+                            <h3>Decision Making & Action</h3>
+                            <p>Translate insights into actionable strategies. Implement data-driven decisions and monitor outcomes to <strong style="color: #34d399;">continuously improve results</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <!-- Process Image -->
+                <div style="text-align: center; margin: 40px 0;">
+                    <a href="https://en.wikipedia.org/wiki/Data_analysis" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&h=350&fit=crop"
+                             alt="Data Analytics Process" class="img-bordered" style="max-width: 700px;">
+                    </a>
+                    <p style="font-size: 13px; color: #64748b; margin-top: 12px;">
+                        <i>The analytics workflow in a modern data environment</i>
+                    </p>
+                </div>
+
+                <!-- Ordered List of Process -->
+                <div style="max-width: 700px; margin: 40px auto; background: rgba(30,41,59,0.5); border: 1px solid rgba(99,102,241,0.15); border-radius: 16px; padding: 32px;">
+                    <h3 style="color: #e2e8f0; margin-bottom: 16px;"><i class="fas fa-list-ol text-indigo"></i> Process Summary </h3>
+                    <ol class="ordered-styled">
+                        <li><strong>Define</strong> clear business objectives and questions</li>
+                        <li><strong>Collect</strong> relevant data from diverse sources</li>
+                        <li><strong>Clean</strong> and prepare data for analysis</li>
+                        <li><strong>Explore</strong> data patterns through EDA</li>
+                        <li><strong>Model</strong> and analyze using appropriate techniques</li>
+                        <li><strong>Visualize</strong> findings with charts and dashboards</li>
+                        <li><strong>Implement</strong> data-driven decisions and actions</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== TYPES PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-types">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-layer-group text-purple"></i> Types of Data Analytics</h2>
+                <p>Four fundamental categories that address different analytical needs</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 40px;">
+                <!-- Descriptive -->
+                <div class="card" style="border-left: 4px solid #6366f1;">
+                    <div class="card-icon" style="background: rgba(99,102,241,0.15); color: #818cf8;">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>1. Descriptive Analytics</h3>
+                    <p style="margin-bottom: 16px;"><em>"What happened?"</em></p>
+                    <p>Examines historical data to understand past trends and events. Uses summarization, aggregation, and data mining techniques.</p>
+                    <ul class="styled-list" style="margin-top: 16px;">
+                        <li>Monthly sales reports and dashboards</li>
+                        <li>Website traffic analysis</li>
+                        <li>Financial statement summaries</li>
+                        <li>Social media engagement metrics</li>
+                    </ul>
+                    <p style="margin-top: 12px;"><span class="font-small font-mono text-indigo">Tools: Excel, Google Analytics, Tableau</span></p>
+                </div>
+
+                <!-- Diagnostic -->
+                <div class="card" style="border-left: 4px solid #10b981;">
+                    <div class="card-icon" style="background: rgba(16,185,129,0.15); color: #34d399;">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>2. Diagnostic Analytics</h3>
+                    <p style="margin-bottom: 16px;"><em>"Why did it happen?"</em></p>
+                    <p>Investigates the root causes behind trends and anomalies. Uses drill-down, data discovery, and correlation analysis.</p>
+                    <ul class="styled-list" style="margin-top: 16px;">
+                        <li>Root cause analysis of sales decline</li>
+                        <li>Customer churn investigation</li>
+                        <li>Manufacturing defect analysis</li>
+                        <li>Performance bottleneck identification</li>
+                    </ul>
+                    <p style="margin-top: 12px;"><span class="font-small font-mono text-green">Tools: SQL, R, Python, SAS</span></p>
+                </div>
+
+                <!-- Predictive -->
+                <div class="card" style="border-left: 4px solid #f59e0b;">
+                    <div class="card-icon" style="background: rgba(245,158,11,0.15); color: #f59e0b;">
+                        <i class="fas fa-crystal-ball"></i>
+                    </div>
+                    <h3>3. Predictive Analytics</h3>
+                    <p style="margin-bottom: 16px;"><em>"What will happen?"</em></p>
+                    <p>Uses statistical models and machine learning to <b>forecast future outcomes</b>. Identifies risks and opportunities ahead of time.</p>
+                    <ul class="styled-list" style="margin-top: 16px;">
+                        <li>Demand forecasting and inventory planning</li>
+                        <li>Credit risk assessment</li>
+                        <li>Customer lifetime value prediction</li>
+                        <li>Predictive maintenance for equipment</li>
+                    </ul>
+                    <p style="margin-top: 12px;"><span class="font-small font-mono text-orange">Tools: Python, TensorFlow, scikit-learn</span></p>
+                </div>
+
+                <!-- Prescriptive -->
+                <div class="card" style="border-left: 4px solid #a78bfa;">
+                    <div class="card-icon" style="background: rgba(139,92,246,0.15); color: #a78bfa;">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>4. Prescriptive Analytics</h3>
+                    <p style="margin-bottom: 16px;"><em>"What should we do?"</em></p>
+                    <p>Recommends specific actions using optimization and simulation. The most <u>advanced form</u> of analytics that drives automated decisions.</p>
+                    <ul class="styled-list" style="margin-top: 16px;">
+                        <li>Dynamic pricing optimization</li>
+                        <li>Supply chain route optimization</li>
+                        <li>Treatment recommendation in healthcare</li>
+                        <li>Resource allocation strategies</li>
+                    </ul>
+                    <p style="margin-top: 12px;"><span class="font-small font-mono text-purple">Tools: IBM CPLEX, Gurobi, OptaPlanner</span></p>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="section-title" style="margin-top: 60px;">
+                <h2>Types Comparison</h2>
+                <p>A side-by-side comparison of all four analytics types</p>
+                <div class="line"></div>
+            </div>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Descriptive</th>
+                        <th>Diagnostic</th>
+                        <th>Predictive</th>
+                        <th>Prescriptive</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Question</b></td>
+                        <td>What happened?</td>
+                        <td>Why?</td>
+                        <td>What will happen?</td>
+                        <td>What to do?</td>
+                    </tr>
+                    <tr>
+                        <td><b>Complexity</b></td>
+                        <td><span class="table-badge badge-green">Low</span></td>
+                        <td><span class="table-badge badge-blue">Medium</span></td>
+                        <td><span class="table-badge badge-purple">High</span></td>
+                        <td><span class="table-badge badge-orange">Very High</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>Time Focus</b></td>
+                        <td>Past</td>
+                        <td>Past</td>
+                        <td>Future</td>
+                        <td>Future</td>
+                    </tr>
+                    <tr>
+                        <td><b>Value</b></td>
+                        <td>Information</td>
+                        <td>Understanding</td>
+                        <td>Foresight</td>
+                        <td>Actionable</td>
+                    </tr>
+                    <tr>
+                        <td><b>Example</b></td>
+                        <td>Sales report</td>
+                        <td>Churn analysis</td>
+                        <td>Revenue forecast</td>
+                        <td>Price optimization</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== DATA TYPES PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-datatypes">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-cubes text-cyan"></i> Types of Data</h2>
+                <p>Understanding different data categories is essential for choosing the right analytical approach</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 40px;">
+                <div>
+                    <h3 style="color: #e2e8f0; font-size: 24px; margin-bottom: 20px;">
+                        <span class="font-serif" style="color: #818cf8;">Qualitative</span> vs
+                        <span class="font-serif" style="color: #34d399;">Quantitative</span>
+                    </h3>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">
+                        Data can be broadly classified into <b style="color: #818cf8;">qualitative</b> (categorical) and <b style="color: #34d399;">quantitative</b> (numerical) types. Each requires different analytical methods and tools.
+                    </p>
+                    <div class="info-box info-box-green">
+                        <i class="fas fa-check-circle text-green"></i>
+                        <p><strong>Pro Tip:</strong> Always identify your data type first — it determines which statistical tests, visualizations, and models are appropriate.</p>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <a href="https://en.wikipedia.org/wiki/Data_type" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=500&h=350&fit=crop"
+                             alt="Data Types Visualization" class="img-bordered">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Data Types Table -->
+            <table class="styled-table" style="margin-bottom: 40px;">
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Examples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Nominal</b></td>
+                        <td><span class="table-badge badge-blue">Qualitative</span></td>
+                        <td>Categories with no inherent order</td>
+                        <td>Gender, Color, Country</td>
+                    </tr>
+                    <tr>
+                        <td><b>Ordinal</b></td>
+                        <td><span class="table-badge badge-blue">Qualitative</span></td>
+                        <td>Categories with a meaningful order</td>
+                        <td>Rating (Low/Med/High), Education level</td>
+                    </tr>
+                    <tr>
+                        <td><b>Discrete</b></td>
+                        <td><span class="table-badge badge-green">Quantitative</span></td>
+                        <td>Countable, whole numbers only</td>
+                        <td>Number of students, Defect count</td>
+                    </tr>
+                    <tr>
+                        <td><b>Continuous</b></td>
+                        <td><span class="table-badge badge-green">Quantitative</span></td>
+                        <td>Measurable, can take any value</td>
+                        <td>Temperature, Weight, Revenue</td>
+                    </tr>
+                    <tr>
+                        <td><b>Time-Series</b></td>
+                        <td><span class="table-badge badge-purple">Temporal</span></td>
+                        <td>Data points indexed by time</td>
+                        <td>Stock prices, Sensor readings</td>
+                    </tr>
+                    <tr>
+                        <td><b>Unstructured</b></td>
+                        <td><span class="table-badge badge-orange">Complex</span></td>
+                        <td>No predefined data model</td>
+                        <td>Text, Images, Videos, Audio</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Structured vs Unstructured -->
+            <div class="grid-2">
+                <div class="card" style="border-top: 4px solid #6366f1;">
+                    <h3><i class="fas fa-table text-indigo"></i> Structured Data</h3>
+                    <p style="margin: 12px 0;">Highly organized data stored in fixed formats like tables with rows and columns.</p>
+                    <ul class="styled-list">
+                        <li>SQL databases and spreadsheets</li>
+                        <li>Easy to search and analyze</li>
+                        <li>Consistent schema and data types</li>
+                        <li>Accounts for ~20% of all data</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-top: 4px solid #f59e0b;">
+                    <h3><i class="fas fa-file-alt text-orange"></i> Unstructured Data</h3>
+                    <p style="margin: 12px 0;">Data without a predefined model — text, images, videos, social media posts.</p>
+                    <ul class="styled-list">
+                        <li>Emails, documents, and web pages</li>
+                        <li>Requires NLP and computer vision</li>
+                        <li>No fixed schema or format</li>
+                        <li>Accounts for ~80% of all data</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== ADVANTAGES PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-advantages">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-thumbs-up text-green"></i> Advantages of Data Analytics</h2>
+                <p>How data analytics empowers organizations to achieve more</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 40px;">
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-bullseye"></i></div>
+                    <h4>Better Decision Making</h4>
+                    <p>Replace gut feelings with <b>evidence-based decisions</b>. Data-driven organizations are 23x more likely to acquire customers.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-dollar-sign"></i></div>
+                    <h4>Cost Reduction</h4>
+                    <p>Identify inefficiencies and optimize processes. Companies save an average of <strong style="color: #34d399;">20-30%</strong> on operational costs through analytics.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-users"></i></div>
+                    <h4>Customer Understanding</h4>
+                    <p>Gain deep insights into customer behavior, preferences, and satisfaction levels to improve products and services.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-shield-alt"></i></div>
+                    <h4>Risk Mitigation</h4>
+                    <p>Identify potential risks before they materialize. Predictive models help in <em>proactive risk management</em> and fraud detection.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-rocket"></i></div>
+                    <h4>Competitive Advantage</h4>
+                    <p>Stay ahead of competitors by leveraging data insights for <u>strategic planning</u> and market positioning.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-tachometer-alt"></i></div>
+                    <h4>Operational Efficiency</h4>
+                    <p>Streamline workflows, optimize resource allocation, and automate repetitive tasks for maximum productivity.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-chart-line"></i></div>
+                    <h4>Revenue Growth</h4>
+                    <p>Identify new revenue streams, optimize pricing strategies, and personalize marketing for higher conversion rates.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-sync-alt"></i></div>
+                    <h4>Real-Time Insights</h4>
+                    <p>Monitor KPIs in real-time for <b>instant awareness</b> of trends and anomalies as they happen.</p>
+                </div>
+                <div class="adv-card">
+                    <div class="icon-wrap"><i class="fas fa-cogs"></i></div>
+                    <h4>Process Optimization</h4>
+                    <p>Continuously improve business processes through data-driven feedback loops and iterative enhancements.</p>
+                </div>
+            </div>
+
+            <!-- Unordered List Summary -->
+            <div style="max-width: 700px; margin: 0 auto; background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.2); border-radius: 16px; padding: 32px;">
+                <h3 style="color: #34d399; margin-bottom: 16px;"><i class="fas fa-check-double"></i> Key Benefits Summary</h3>
+                <ul class="styled-list">
+                    <li><strong>Data-driven culture</strong> leads to 5-6% higher output and productivity</li>
+                    <li>Organizations using analytics are <b>2x more likely</b> to be in the top quartile of financial performance</li>
+                    <li>Improved customer retention by <span style="color: #34d399; font-size: 18px; font-weight: 700;">25%</span> through personalized experiences</li>
+                    <li>Reduced time-to-market for new products by up to <span style="color: #34d399; font-size: 18px; font-weight: 700;">40%</span></li>
+                    <li>Enhanced supply chain efficiency saving millions in logistics costs</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== LIMITATIONS PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-limitations">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-exclamation-triangle text-red"></i> Limitations of Data Analytics</h2>
+                <p>Important challenges and constraints to be aware of</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 40px;">
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-lock"></i></div>
+                    <h4>Data Privacy Concerns</h4>
+                    <p>Handling sensitive personal data raises ethical and legal issues. Compliance with GDPR, HIPAA, and other regulations is mandatory.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-bug"></i></div>
+                    <h4>Data Quality Issues</h4>
+                    <p><i>"Garbage in, garbage out"</i> — poor quality data leads to misleading insights and flawed decisions.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-dollar-sign"></i></div>
+                    <h4>High Implementation Costs</h4>
+                    <p>Advanced analytics infrastructure, tools, and skilled personnel require <u>significant investment</u> that may be prohibitive for smaller organizations.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-user-graduate"></i></div>
+                    <h4>Talent Shortage</h4>
+                    <p>There's a global shortage of skilled data analysts, scientists, and engineers. Finding qualified professionals is increasingly difficult.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-random"></i></div>
+                    <h4>Bias in Data</h4>
+                    <p>Historical data may contain inherent biases that get amplified by algorithms, leading to <b>unfair or discriminatory</b> outcomes.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-clock"></i></div>
+                    <h4>Time-Consuming Process</h4>
+                    <p>Data cleaning and preparation alone can consume <strong style="color: #f87171;">60-80%</strong> of the total project time, delaying insights delivery.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-puzzle-piece"></i></div>
+                    <h4>Integration Challenges</h4>
+                    <p>Combining data from disparate sources and legacy systems creates technical hurdles and data silos.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-question-circle"></i></div>
+                    <h4>Misinterpretation Risk</h4>
+                    <p>Non-technical stakeholders may misinterpret results, leading to <em>incorrect conclusions</em> and poor business decisions.</p>
+                </div>
+                <div class="lim-card">
+                    <div class="icon-wrap"><i class="fas fa-server"></i></div>
+                    <h4>Scalability Issues</h4>
+                    <p>As data volume grows exponentially, infrastructure must scale accordingly, requiring continuous investment and optimization.</p>
+                </div>
+            </div>
+
+            <!-- Unordered List -->
+            <div style="max-width: 700px; margin: 0 auto; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15); border-radius: 16px; padding: 32px;">
+                <h3 style="color: #f87171; margin-bottom: 16px;"><i class="fas fa-times-circle"></i> Common Pitfalls to Avoid</h3>
+                <ul class="styled-list styled-list-x">
+                    <li>Ignoring data governance and quality controls</li>
+                    <li>Over-relying on analytics without domain expertise</li>
+                    <li>Confusing <strong>correlation with causation</strong></li>
+                    <li>Neglecting data security and privacy protocols</li>
+                    <li>Using outdated or irrelevant data for analysis</li>
+                    <li>Failing to communicate insights effectively to stakeholders</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== ABOUT PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-about">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-users text-purple"></i> About Us</h2>
+                <p>Meet the team behind Data Analytics Hub</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 50px;">
+                <div>
+                    <h3 style="color: #e2e8f0; font-size: 28px; margin-bottom: 16px;">
+                        Our <span class="font-serif" style="color: #818cf8;">Mission</span>
+                    </h3>
+                    <p style="color: #94a3b8; margin-bottom: 16px; font-size: 16px;">
+                        <b style="color: #e2e8f0;">Data Analytics Hub</b> was created to be a <em>comprehensive, free resource</em> for anyone looking to understand the world of data analytics. Whether you're a <span class="text-green">student</span>, a <span class="text-purple">professional</span>, or a <span class="text-orange">business leader</span>, our platform provides clear, concise, and actionable information.
+                    </p>
+                    <p style="color: #94a3b8; margin-bottom: 16px; font-size: 16px;">
+                        We believe that <u>data literacy</u> is a fundamental skill in the 21st century. Our goal is to demystify data analytics and make it accessible to everyone, <i>regardless of their technical background</i>.
+                    </p>
+                    <p style="margin-top: 20px;">
+                        <a href="https://www.linkedin.com" target="_blank" class="link-indigo">Connect on LinkedIn <i class="fas fa-external-link-alt"></i></a> &nbsp; | &nbsp;
+                        <a href="https://github.com" target="_blank" class="link-green">View on GitHub <i class="fas fa-external-link-alt"></i></a>
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <a href="https://en.wikipedia.org/wiki/Data_science" target="_blank">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=350&fit=crop"
+                             alt="Our Team" class="img-bordered">
+                    </a>
+                    <p style="font-size: 13px; color: #64748b; margin-top: 12px;"><i>Our team collaborating on analytics projects</i></p>
+                </div>
+            </div>
+
+            <!-- Team -->
+            <div class="section-title">
+                <h2>Our Team</h2>
+                <div class="line"></div>
+            </div>
+            <div class="grid-3" style="max-width: 900px; margin: 0 auto;">
+                <div class="team-card">
+                    <img src="C:\Users\HP\OneDrive\Desktop\College\College Assignments\WEBPAGE_NEW\manvig.jpeg" alt="Manvi Gurav" class="team-avatar">
+                    <h4>Manvi Gurav</h4>
+                </div>
+                <div class="team-card">
+                    <img src="C:\Users\HP\OneDrive\Desktop\College\College Assignments\WEBPAGE_NEW\shivdhic.png" alt="Shivdhi Chetnani" class="team-avatar">
+                    <h4>Shivdhi Chetnani</h4>
+                </div>
+                <div class="team-card">
+                    <img src="C:\Users\HP\OneDrive\Desktop\College\College Assignments\WEBPAGE_NEW\lakshyas.png" alt="Lakshya Soni" class="team-avatar">
+                    <h4>Lakshya Soni</h4>
+                </div>
+            </div>
+
+            <!-- iframe - external page -->
+            <div class="separator"></div>
+            <div class="section-title">
+                <h2>Featured Resource</h2>
+                <p>Explore data science courses on Harvard's platform</p>
+                <div class="line"></div>
+            </div>
+            <div class="iframe-wrapper" style="max-width: 900px; margin: 0 auto;">
+                <iframe src="https://www.wikipedia.org" title="Wikipedia - Data Science" style="height: 450px;"></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 12px; font-size: 13px; color: #64748b;">
+                <i class="fas fa-globe text-purple"></i> Embedded resource: <a href="https://www.wikipedia.org" target="_blank" class="link-purple">Open in new tab</a>
+            </p>
+        </section>
+    </div>
+
+    <!-- ======================================== -->
+    <!-- ===== HELP PAGE ===== -->
+    <!-- ======================================== -->
+    <div class="page-section" id="page-help">
+        <section class="section">
+            <div class="section-title">
+                <h2><i class="fas fa-question-circle text-indigo"></i> Help & Support</h2>
+                <p>Find answers to common questions or reach out to us directly</p>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid-2" style="gap: 40px;">
+                <!-- FAQ Section -->
+                <div>
+                    <h3 style="color: #e2e8f0; margin-bottom: 24px; font-size: 22px;">
+                        <i class="fas fa-question text-indigo"></i> Frequently Asked Questions
+                    </h3>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            What is Data Analytics?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p style="color: #94a3b8; font-size: 14px;">Data Analytics is the process of examining datasets to find trends and draw conclusions about the information they contain. It involves applying statistical analysis and technologies to data to identify meaningful patterns.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            How do I get started with data analytics?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p style="color: #94a3b8; font-size: 14px;">Start by learning the fundamentals of statistics and a programming language like Python or R. Then practice with real datasets from Kaggle. Consider online courses from Coursera or edX. Build projects to showcase your skills.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            What tools should I learn first?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p style="color: #94a3b8; font-size: 14px;">We recommend starting with: <b>Excel</b> for basics, <b>SQL</b> for data querying, <b>Python</b> (with Pandas and Matplotlib) for analysis, and <b>Tableau</b> or <b>Power BI</b> for visualization.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            Is this website free to use?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p style="color: #94a3b8; font-size: 14px;">Yes! Data Analytics Hub is completely <b style="color: #34d399;">free</b> and open to everyone. Our mission is to make data analytics education accessible to all, regardless of background or resources.</p>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            How can I contribute to this platform?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-body">
+                            <p style="color: #94a3b8; font-size: 14px;">We welcome contributions! You can submit content suggestions through our feedback form, contribute to our GitHub repository, or reach out via email to discuss collaboration opportunities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div style="margin-top: 30px; background: rgba(30,41,59,0.5); border: 1px solid rgba(99,102,241,0.15); border-radius: 16px; padding: 24px;">
+                        <h4 style="color: #e2e8f0; margin-bottom: 16px;"><i class="fas fa-link text-indigo"></i> Quick Links</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 8px 0;"><a href="#" onclick="showPage('home')" class="link-indigo"><i class="fas fa-home"></i> Home Page</a></li>
+                            <li style="padding: 8px 0;"><a href="#" onclick="showPage('process')" class="link-green"><i class="fas fa-cogs"></i> Analytics Process</a></li>
+                            <li style="padding: 8px 0;"><a href="#" onclick="showPage('types')" class="link-purple"><i class="fas fa-layer-group"></i> Types of Analytics</a></li>
+                            <li style="padding: 8px 0;"><a href="https://www.kaggle.com" target="_blank" class="link-orange"><i class="fas fa-external-link-alt"></i> Practice on Kaggle</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Feedback Form -->
+                <div>
+                    <h3 style="color: #e2e8f0; margin-bottom: 24px; font-size: 22px;">
+                        <i class="fas fa-envelope text-purple"></i> Send Us Feedback
+                    </h3>
+                    <div style="background: rgba(30,41,59,0.5); border: 1px solid rgba(99,102,241,0.15); border-radius: 16px; padding: 32px;">
+                        <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fname"><i class="fas fa-user text-indigo"></i> First Name *</label>
+                                    <input type="text" id="fname" class="form-control" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lname"><i class="fas fa-user text-indigo"></i> Last Name *</label>
+                                    <input type="text" id="lname" class="form-control" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope text-indigo"></i> Email Address *</label>
+                                <input type="email" id="email" class="form-control" placeholder="john.doe@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject"><i class="fas fa-tag text-indigo"></i> Subject</label>
+                                <select id="subject" class="form-control">
+                                    <option value="">Select a topic...</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="feedback">Website Feedback</option>
+                                    <option value="content">Content Suggestion</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="collaboration">Collaboration</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rating"><i class="fas fa-star text-indigo"></i> How would you rate this website?</label>
+                                <select id="rating" class="form-control">
+                                    <option value="">Select rating...</option>
+                                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                                    <option value="4">⭐⭐⭐⭐ Very Good</option>
+                                    <option value="3">⭐⭐⭐ Good</option>
+                                    <option value="2">⭐⭐ Fair</option>
+                                    <option value="1">⭐ Poor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message"><i class="fas fa-comment text-indigo"></i> Your Message *</label>
+                                <textarea id="message" class="form-control" placeholder="Share your thoughts, suggestions, or questions..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" style="accent-color: #6366f1; width: 18px; height: 18px;">
+                                    <span style="font-size: 13px; color: #94a3b8;">I agree to receive occasional updates about new content</span>
+                                </label>
+                            </div>
+                            <div style="display: flex; gap: 12px;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+                                <button type="reset" class="btn btn-secondary"><i class="fas fa-redo"></i> Reset</button>
+                            </div>
+                        </form>
+                        <div id="formSuccess" style="display: none; text-align: center; padding: 40px 20px;">
+                            <i class="fas fa-check-circle" style="font-size: 60px; color: #10b981; margin-bottom: 20px;"></i>
+                            <h3 style="color: #e2e8f0; margin-bottom: 12px;">Thank You!</h3>
+                            <p style="color: #94a3b8;">Your feedback has been submitted successfully. We'll get back to you soon.</p>
+                            <button onclick="resetForm()" class="btn btn-secondary" style="margin-top: 20px;"><i class="fas fa-arrow-left"></i> Send Another</button>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div style="margin-top: 24px; background: rgba(30,41,59,0.5); border: 1px solid rgba(99,102,241,0.15); border-radius: 16px; padding: 24px;">
+                        <h4 style="color: #e2e8f0; margin-bottom: 16px;"><i class="fas fa-phone text-green"></i> Other Ways to Reach Us</h4>
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 8px;">
+                            <i class="fas fa-envelope text-indigo"></i> &nbsp; <a href="mailto:contact@dataanalyticshub.com" class="link-indigo">contact@dataanalyticshub.com</a>
+                        </p>
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 8px;">
+                            <i class="fab fa-twitter text-cyan"></i> &nbsp; <a href="https://twitter.com" target="_blank" class="link-indigo">@DataAnalyticsHub</a>
+                        </p>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            <i class="fab fa-github" style="color: #e2e8f0;"></i> &nbsp; <a href="https://github.com" target="_blank" class="link-green">github.com/dataanalyticshub</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="bottom">
+        <div class="footer-grid">
+            <div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <i class="fas fa-database" style="font-size: 24px; color: #818cf8;"></i>
+                    <span style="font-size: 20px; font-weight: 700; color: #e2e8f0;">DataAnalyticsHub</span>
+                </div>
+                <p style="margin-bottom: 16px;">Your comprehensive resource for understanding data analytics — from fundamentals to advanced concepts. Empowering data-driven decisions since 2024.</p>
+                <div class="social-icons">
+                    <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://youtube.com" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Home</a></li>
+                    <li><a href="#" onclick="showPage('process')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Process</a></li>
+                    <li><a href="#" onclick="showPage('types')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Types</a></li>
+                    <li><a href="#" onclick="showPage('datatypes')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Data Types</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('advantages')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Advantages</a></li>
+                    <li><a href="#" onclick="showPage('limitations')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Limitations</a></li>
+                    <li><a href="#" onclick="showPage('about')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>About Us</a></li>
+                    <li><a href="#" onclick="showPage('help')"><i class="fas fa-chevron-right" style="font-size:10px; margin-right:6px;"></i>Help</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://www.kaggle.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:10px; margin-right:6px;"></i>Kaggle</a></li>
+                    <li><a href="https://www.coursera.org" target="_blank"><i class="fas fa-external-link-alt" style="font-size:10px; margin-right:6px;"></i>Coursera</a></li>
+                    <li><a href="https://analytics.google.com" target="_blank"><i class="fas fa-external-link-alt" style="font-size:10px; margin-right:6px;"></i>Google Analytics</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Data_analysis" target="_blank"><i class="fas fa-external-link-alt" style="font-size:10px; margin-right:6px;"></i>Wikipedia</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Data Analytics Hub. All rights reserved. | Made with <i class="fas fa-heart" style="color: #ef4444;"></i> for data enthusiasts</p>
+            <div class="social-icons">
+                <a href="#" onclick="showPage('help')" title="Help"><i class="fas fa-question-circle"></i></a>
+                <a href="mailto:contact@dataanalyticshub.com" title="Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== FLOATING BUTTONS ===== -->
+    <a href="#top" id="moveToTop" class="floating-btn" title="Move to Top"><i class="fas fa-arrow-up"></i></a>
+    <a href="#bottom" id="moveToBottom" class="floating-btn" title="Move to Bottom"><i class="fas fa-arrow-down"></i></a>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // Page Navigation
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            // Show selected
+            const target = document.getElementById('page-' + page);
+            if (target) target.classList.add('active');
+            // Update nav active
+            document.querySelectorAll('.nav-links > li > a').forEach(a => a.classList.remove('active'));
+            const navEl = document.getElementById('nav-' + page);
+            if (navEl) navEl.classList.add('active');
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Close mobile menu
+            document.getElementById('navLinks').classList.remove('open');
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        // Accordion
+        function toggleAccordion(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            const isOpen = body.classList.contains('open');
+            
+            // Close all
+            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+            document.querySelectorAll('.accordion-header i').forEach(i => i.style.transform = 'rotate(0deg)');
+            
+            if (!isOpen) {
+                body.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Feedback Form
+        function submitFeedback(e) {
+            e.preventDefault();
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+        }
+
+        function resetForm() {
+            document.getElementById('feedbackForm').style.display = 'block';
+            document.getElementById('formSuccess').style.display = 'none';
+            document.getElementById('feedbackForm').reset();
+        }
+
+        // Floating button visibility
+        window.addEventListener('scroll', () => {
+            const topBtn = document.getElementById('moveToTop');
+            const bottomBtn = document.getElementById('moveToBottom');
+            if (window.scrollY > 300) {
+                topBtn.style.opacity = '1';
+                topBtn.style.pointerEvents = 'auto';
+            } else {
+                topBtn.style.opacity = '0';
+                topBtn.style.pointerEvents = 'none';
+            }
+            
+            const scrollBottom = window.scrollY + window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            if (scrollBottom >= docHeight - 100) {
+                bottomBtn.style.opacity = '0';
+                bottomBtn.style.pointerEvents = 'none';
+            } else {
+                bottomBtn.style.opacity = '1';
+                bottomBtn.style.pointerEvents = 'auto';
+            }
+        });
+
+        // Initialize
+        document.getElementById('moveToTop').style.opacity = '0';
+        document.getElementById('moveToTop').style.pointerEvents = 'none';
+    </script>
+</body>
+</html>
